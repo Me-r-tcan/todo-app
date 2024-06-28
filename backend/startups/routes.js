@@ -1,5 +1,8 @@
 const express = require("express");
+const cors = require("cors");
+require('express-async-errors');
 
+const errorMiddleware = require("../middlewares/errorMiddleware");
 const todos = require("../routes/todos");
 
 module.exports = function (app) {
@@ -11,5 +14,9 @@ module.exports = function (app) {
       parameterLimit: 50000,
     })
   );
+  app.use(cors());
+
+
   app.use("/api/todos", todos);
+  app.use(errorMiddleware);
 };
