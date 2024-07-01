@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const TODO_STATUSES = require("../constants/todoStatuses");
 const prisma = new PrismaClient();
 
 async function createTodo({ title, description, status }) {
@@ -15,6 +16,17 @@ async function createTodo({ title, description, status }) {
 async function getAllTodos() {
     const todos = await prisma.todo.findMany();
     return todos;
+}
+
+function getStatuses() {
+    const list = [];
+    for (const key in TODO_STATUSES) {
+        list.push({
+          value: key,
+          title: TODO_STATUSES[key],
+        });
+      }
+    return list;
 }
 
 async function getTodoById(id) {
@@ -46,6 +58,7 @@ async function deleteTodoById(id) {
 module.exports = {
     createTodo,
     getAllTodos,
+    getStatuses,
     getTodoById,
     updateTodoById,
     deleteTodoById,

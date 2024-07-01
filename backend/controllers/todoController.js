@@ -16,6 +16,11 @@ async function getAllTodos(req, res) {
     res.json(todos);
 }
 
+async function getStatuses(req, res) {
+    const todoStatuses = todoService.getStatuses();
+    res.json(todoStatuses);
+}
+
 async function getTodoById(req, res) {
     const { id } = req.params;
     const todo = await todoService.getTodoById(id);
@@ -48,6 +53,7 @@ async function deleteTodoById(req, res) {
 
 module.exports = {
     createTodo,
+    getStatuses,
     getAllTodos,
     getTodoById,
     updateTodoById,
