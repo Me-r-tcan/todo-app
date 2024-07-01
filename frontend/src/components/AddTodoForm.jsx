@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, Button, Grid, Select, MenuItem, InputLabel, FormControl, Typography, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import useTodoStore from '../stores/todoStore';
@@ -10,6 +10,8 @@ const AddTodoForm = () => {
 	const [submitted, setSubmitted] = useState(false);
 
 	const addTodo = useTodoStore((state) => state.addTodo);
+	const fetchTodoStatuses = useTodoStore((state) => state.fetchTodoStatuses);
+	const todoStatusOptions = useTodoStore((state) => state.todoStatusOptions);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -20,6 +22,10 @@ const AddTodoForm = () => {
 		setSubmitted(true);
 		setTimeout(() => setSubmitted(false), 3000);
 	};
+
+	useEffect(() => {
+		fetchTodoStatuses();
+	}, [fetchTodoStatuses]);
 
 	return (
 		<Paper elevation={3} sx={{ p: 3 }}>
@@ -55,9 +61,11 @@ const AddTodoForm = () => {
 								onChange={(e) => setStatus(e.target.value)}
 								label="Status"
 							>
-								<MenuItem value="PENDING">Pending</MenuItem>
-								<MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-								<MenuItem value="COMPLETED">Completed</MenuItem>
+								{todoStatusOptions.map((option) => (
+									<MenuItem key={option.value} value={option.value}>
+										{option.title}
+									</MenuItem>
+								))}
 							</Select>
 						</FormControl>
 					</Grid>

@@ -8,6 +8,7 @@ const useTodoStore = create(
 		persist(
 			(set, get) => ({
 				todos: [],
+				todoStatusOptions: [],
 
 				fetchTodos: async () => {
 					try {
@@ -16,6 +17,16 @@ const useTodoStore = create(
 						set({ todos: data });
 					} catch (error) {
 						console.error('Error fetching todos:', error);
+					}
+				},
+
+				fetchTodoStatuses: async () => {
+					try {
+						const response = await fetch(`${apiUrl}/api/todos/statuses`);
+						const data = await response.json();
+						set({ todoStatusOptions: data });
+					} catch (error) {
+						console.error('Error fetching todo statuses:', error);
 					}
 				},
 

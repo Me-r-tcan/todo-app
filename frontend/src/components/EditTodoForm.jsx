@@ -14,8 +14,11 @@ const EditTodoForm = () => {
 
 	const getTodoById = useTodoStore((state) => state.getTodoById);
 	const updateTodo = useTodoStore((state) => state.updateTodo);
+	const fetchTodoStatuses = useTodoStore((state) => state.fetchTodoStatuses);
+	const todoStatusOptions = useTodoStore((state) => state.todoStatusOptions);
 
 	useEffect(() => {
+		fetchTodoStatuses();
 		const todo = getTodoById(id);
 
 		if (todo) {
@@ -23,7 +26,7 @@ const EditTodoForm = () => {
 			setDescription(todo.description);
 			setStatus(todo.status);
 		}
-	}, [getTodoById, id]);
+	}, [getTodoById, fetchTodoStatuses, id]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -65,9 +68,11 @@ const EditTodoForm = () => {
 								onChange={(e) => setStatus(e.target.value)}
 								label="Status"
 							>
-								<MenuItem value="PENDING">Pending</MenuItem>
-								<MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-								<MenuItem value="COMPLETED">Completed</MenuItem>
+								{todoStatusOptions.map((option) => (
+									<MenuItem key={option.value} value={option.value}>
+										{option.title}
+									</MenuItem>
+								))}
 							</Select>
 						</FormControl>
 					</Grid>
