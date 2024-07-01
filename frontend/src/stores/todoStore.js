@@ -37,6 +37,29 @@ const useTodoStore = create(
 					}
 				},
 
+				getTodoById: (id) => {
+					const todos = get().todos;
+					return todos.find((todo) => todo.id === Number(id));
+				},
+
+				updateTodo: async (id, updatedValues) => {
+					try {
+						const response = await fetch(`${apiUrl}/api/todos/${id}`, {
+							method: 'PUT',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(updatedValues),
+						});
+						const data = await response.json();
+						set((state) => ({
+							todos: state.todos.map((todo) => (todo.id === Number(id) ? data : todo)),
+						}));
+					} catch (error) {
+						console.error('Error updating todo:', error);
+					}
+				},
+
 				deleteTodo: async (id) => {
 					try {
 						const response = await fetch(`${apiUrl}/api/todos/${id}`, {
