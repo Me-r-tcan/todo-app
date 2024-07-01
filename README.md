@@ -81,3 +81,36 @@ curl http://localhost:3000/api/todos/1
 ```plaintext
 curl -X DELETE http://localhost:3000/api/todos/1
 ```
+
+# Frontend Project README
+
+## Description
+This project is a frontend application developed using React, zustand and Mui.
+
+## Environment Variables
+
+Before running the project, ensure that the following environment variables are set in a `.env` file:
+
+```plaintext
+PORT=3001
+REACT_APP_API_BASE_URL=http://localhost:3000
+```
+
+## Installing Dependencies
+
+To install the project dependencies, run the following command:
+
+```bash
+cd .\frontend\
+npm install
+```
+
+## Project Run
+
+### Running Start Command
+
+To start the project, use the following command:
+
+```bash
+npm start
+```
